@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Сравнение фото</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #ccc;
+    }
+    .image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      cursor: ew-resize;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Сравнение фотографий</h1>
+  <div class="container">
+    <!-- Нижнее изображение (полное) -->
+    <img src="before.jpg" class="image" alt="До">
+    <!-- Верхнее изображение (обрезается слайдером) -->
+    <div class="slider">
+      <img src="after.jpg" class="image" alt="После">
+    </div>
+  </div>
+
+  <script>
+    const slider = document.querySelector('.slider');
+    const container = document.querySelector('.container');
+
+    // Обновляем ширину слайдера при движении мыши
+    function updateSlider(e) {
+      const containerRect = container.getBoundingClientRect();
+      const mouseX = e.clientX - containerRect.left;
+      const percent = (mouseX / containerRect.width) * 100;
+      slider.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+    }
+
+    // Обработчики событий
+    container.addEventListener('mousemove', updateSlider);
+    container.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      updateSlider(e.touches[0]);
+    });
+  </script>
+</body>
+</html>
